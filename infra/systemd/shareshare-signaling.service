@@ -1,0 +1,28 @@
+[Unit]
+Description=ShareShare signaling server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=shareshare
+Group=shareshare
+WorkingDirectory=/srv/shareshare/apps/signaling
+EnvironmentFile=/etc/shareshare/signaling.env
+ExecStart=/usr/bin/node /srv/shareshare/apps/signaling/dist/index.js
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryMax=512M
+TasksMax=256
+
+[Install]
+WantedBy=multi-user.target

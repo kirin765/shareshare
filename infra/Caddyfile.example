@@ -1,0 +1,26 @@
+# Static web build + WebSocket reverse proxy.
+# Replace shareshare.example.com and paths.
+
+shareshare.example.com {
+	encode zstd gzip
+
+	handle /ws {
+		reverse_proxy 127.0.0.1:8787
+	}
+
+	handle {
+		root * /srv/shareshare/apps/web/dist
+		try_files {path} /index.html
+		file_server
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		Content-Security-Policy "default-src 'self'; connect-src 'self' wss:; worker-src 'self' blob:; img-src 'self' data:; style-src 'self' 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'"
+		# File System Access requires a secure context; keep the app top-level.
+		X-Frame-Options "DENY"
+	}
+}

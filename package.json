@@ -1,0 +1,33 @@
+{
+  "name": "shareshare",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.4.2",
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @shareshare/signaling --filter @shareshare/web dev",
+    "dev:signaling": "pnpm --filter @shareshare/signaling dev",
+    "dev:web": "pnpm --filter @shareshare/web dev",
+    "build": "pnpm --filter @shareshare/signaling build && pnpm --filter @shareshare/web build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "node e2e/browser.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/ws": "^8.18.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "esbuild": "^0.28.0",
+    "playwright-core": "^1.56.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}

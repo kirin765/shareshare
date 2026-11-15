@@ -1,0 +1,16 @@
+services:
+  coturn:
+    image: coturn/coturn:4.6.3
+    restart: unless-stopped
+    # TURN relays UDP on a port range; host networking is the simplest and
+    # most predictable deployment. Open 3478/udp, 3478/tcp, 5349/tcp and
+    # 49160-49200/udp in the host firewall.
+    network_mode: host
+    command:
+      - -c
+      - /etc/coturn/turnserver.conf
+      - --static-auth-secret=${TURN_SECRET:?set TURN_SECRET}
+      - --external-ip=${TURN_EXTERNAL_IP:?set TURN_EXTERNAL_IP}
+    volumes:
+      - ./turnserver.conf:/etc/coturn/turnserver.conf:ro
+    # The same TURN_SECRET must be configured on the signaling server.
